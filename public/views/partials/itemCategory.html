@@ -1,0 +1,50 @@
+<md-dialog flex="100" flex-gt-xs="30" aria-label="Item category dialog">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <span ng-if="typeAction == 'New'">New Category</span>
+            <span ng-if="typeAction == 'Edit'">Edit Category</span>
+            <span flex></span>
+            <ng-md-icon icon="close" class="icon-close" ng-click="onCancel()" aria-label="Close dialog"></ng-md-icon>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <div class="md-dialog-content">
+            <md-card-content>
+
+                <form name="form">
+
+                    <div layout="column">
+
+                        <md-input-container flex>
+                            <label>Name</label>
+                            <input required name="name" ng-model="itemCate.name">
+                            <div ng-messages="form.name.$error">
+                                <div ng-message="required">This is required.</div>
+                            </div>
+                        </md-input-container>
+
+                        <md-input-container flex>
+                            <label>Restaurant</label>
+                            <md-select name="res" ng-model="ArrayRestaurante" multiple>
+                                <md-option ng-repeat="rest in restaurants" ng-value="rest.id">
+                                    {{rest.name}}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+
+                    </div>
+                </form>
+
+            </md-card-content>
+        </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+        <span flex></span>
+        <md-button class="md-raised md-primary" md-primary md-raised ng-click="onCancel()">
+            Cancel
+        </md-button>
+        <md-button class="md-raised" md-primary md-raised ng-disabled="isSavingDisabled" ng-click="onSubmit(form.$valid)">
+            {{ !isSavingDisabled ? 'Save' : 'Saving...' }}
+        </md-button>
+    </md-dialog-actions>
+</md-dialog>

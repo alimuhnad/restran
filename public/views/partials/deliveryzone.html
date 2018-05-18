@@ -1,0 +1,99 @@
+<md-dialog flex="100" flex-gt-xs="30" aria-label="Package dialog">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <span ng-if="typeAction == 'new'">New Delivery Zone</span>
+            <span ng-if="typeAction == 'view'">View Delivery Zone</span>
+            <span ng-if="typeAction == 'edit'">Edit Delivery Zone</span>
+            <span flex></span>
+            <ng-md-icon icon="close" class="icon-close" ng-click="onCancel()" aria-label="Close dialog"></ng-md-icon>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <div class="md-dialog-content">
+            <md-card-content>
+
+                <form name="projectForm" novalidate>
+
+                    <div layout="row">
+                        <md-input-container flex>
+                            <label>Name</label>
+                            <input required name="name" ng-model="deliveryZone.name">
+                            <div ng-messages="projectForm.name.$error">
+                                <div ng-message="required">This is required.</div>
+                            </div>
+                        </md-input-container>
+
+                    </div>
+
+                    <div layout="row">
+
+                        <md-input-container flex>
+                            <label>Description</label>
+                            <input required name="description" ng-model="deliveryZone.description">
+                            <div ng-messages="projectForm.description.$error">
+                                <div ng-message="required">This is required.</div>
+                            </div>
+                        </md-input-container>
+                    </div>
+
+                    <div layout="row">
+                        <md-input-container flex=>
+                            <label>Fee</label>
+                            <input required name="fee" type="number" ng-model="deliveryZone.fee" min="0">
+                            <div ng-messages="projectForm.fee.$error">
+                                <div ng-message="required">This is required.</div>
+                            </div>
+                        </md-input-container>
+
+
+                    </div>
+
+                    <!--<div layout="row">
+
+                        <md-input-container flex="100">
+                            <label>Restaurante</label>
+                            <md-autocomplete required 
+                                md-input-name="autocomplete" 
+                                md-selected-item="selectedDeliveryZoneCategory" 
+                                md-search-text="searchTextDeliveryZoneCategory"
+                                md-search-text-change="getMatchesItemCategory(searchTextDeliveryZoneCategory)" 
+                                md-items="item in listDeliveryZoneCategory"
+                                md-min-length="3" md-item-text="item.name">
+                                <md-item-template>
+
+                                    <div layout="row">
+                                        <div flex="20">
+                                            <img class="img-thumb img-circle" width="40" height="40" ng-src="/images/placeholder.png" actual-src="{{:: item.photo.url() }}"
+                                            />
+                                        </div>
+                                        <div flex> 
+                                            <span md-highlight-text="searchText">{{item.name}}</span>
+                                        </div>
+                                    </div>
+
+                                </md-item-template>
+                                <md-not-found>
+                                    No matches found.
+                                </md-not-found>
+                                <div ng-messages="projectForm.autocomplete.$error">
+                                    <div ng-message="required">This field is required</div>
+                                </div>
+                            </md-autocomplete>
+                        </md-input-container>
+                    </div>-->
+
+                </form>
+
+            </md-card-content>
+        </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row" ng-show="ActiveAction">
+        <span flex></span>
+        <md-button class="md-raised md-primary" md-primary md-raised ng-click="onCancel()">
+            Cancel
+        </md-button>
+        <md-button class="md-raised" md-primary md-raised ng-disabled="isSavingDisabled" ng-click="onSubmit(projectForm.$valid)">
+            {{ !isSavingDisabled ? 'Save' : 'Saving...' }}
+        </md-button>
+    </md-dialog-actions>
+</md-dialog>

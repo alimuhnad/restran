@@ -1,0 +1,77 @@
+<md-dialog flex="100" flex-gt-xs="30" aria-label="Package dialog">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <span ng-if="typeAction == 'new'">New Customer</span>
+            <span ng-if="typeAction == 'view'">View Customer</span>
+            <span ng-if="typeAction == 'edit'">Edit Customer</span>
+            <span flex></span>
+            <ng-md-icon icon="close" class="icon-close" ng-click="onCancel()" aria-label="Close dialog"></ng-md-icon>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <div class="md-dialog-content">
+            <md-card-content>
+
+                <form name="projectForm" novalidate>
+
+                    <div layout="row">
+                        <md-input-container flex="50">
+                            <label>Name</label>
+                            <input required name="name" ng-model="customer.name">
+                            <div ng-messages="projectForm.name.$error">
+                                <div ng-message="required">This is required.</div>
+                            </div>
+                        </md-input-container>
+
+                        <md-input-container flex="50">
+                            <label>Last name</label>
+                            <input required name="lastName" ng-model="customer.lastName">
+                            <div ng-messages="projectForm.lastName.$error">
+                                <div ng-message="required">This is required.</div>
+                            </div>
+                        </md-input-container>
+                    </div>
+
+                    <div layout="row">
+                        <md-input-container flex="50">
+                            <label>Street</label>
+                            <input required name="street" ng-model="customer.street">
+                            <div ng-messages="projectForm.street.$error">
+                                <div ng-message="required">This is required.</div>
+                            </div>
+                        </md-input-container>
+
+                        <md-input-container flex="50">
+                            <label>Location Name</label>
+                            <input required name="locationName" ng-model="customer.locationName">
+                            <div ng-messages="projectForm.locationName.$error">
+                                <div ng-message="required">This is required.</div>
+                            </div>
+                        </md-input-container>
+                    </div>
+
+                    <div layout="row">
+                        <md-input-container flex="50">
+                            <label>Zip Code</label>
+                            <input required name="zipCode" ng-model="customer.zipCode">
+                            <div ng-messages="projectForm.zipCode.$error">
+                                <div ng-message="required">This is required.</div>
+                            </div>
+                        </md-input-container>
+                    </div>
+
+                </form>
+
+            </md-card-content>
+        </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row" ng-show="ActiveAction">
+        <span flex></span>
+        <md-button class="md-raised md-primary" md-primary md-raised ng-click="onCancel()">
+            Cancel
+        </md-button>
+        <md-button class="md-raised" md-primary md-raised ng-disabled="isSavingDisabled" ng-click="onSubmit(projectForm.$valid)">
+            {{ !isSavingDisabled ? 'Save' : 'Saving...' }}
+        </md-button>
+    </md-dialog-actions>
+</md-dialog>

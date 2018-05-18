@@ -1,0 +1,80 @@
+<md-content ng-controller="CustomerCtrl">
+  <md-table-toolbar>
+    <div layout="row" flex>
+      <md-content flex-gt-md="30" flex="100" layout-gt-sm="row">
+        <md-input-container class="md-block" flex-gt-xs>
+          <input type="text" placeholder="Search" ng-model="query.search" ng-change="onReload()" ng-model-options="{ debounce: 1000 }">
+        </md-input-container>
+      </md-content>
+    </div>
+  </md-table-toolbar>
+  <md-table-container>
+    <table md--table md-progress="promise">
+      <thead md-head md-on-reorder="logOrder">
+        <tr md-row>
+          <th md-column md-order-by="name">Name</th>
+          <th md-column md-order-by="lastName">Last name</th>
+          <th md-column md-order-by="street">Street</th>
+          <th md-column md-order-by="locationName">Location name</th>
+          <th md-column md-order-by="zipCode">Zipcode</th>
+          <th md-column>Status</th>
+          <th md-column>Action</th>
+        </tr>
+      </thead>
+      <tbody md-body>
+        <tr md-row ng-repeat="cus in customers">
+          <td md-cell>{{:: cus.name }}</td>
+          <td md-cell>{{:: cus.lastName }}</td>
+          <td md-cell>{{:: cus.street }}</td>
+          <td md-cell>{{:: cus.locationName }}</td>
+          <td md-cell>{{:: cus.zipCode }}</td>
+          <td md-cell>{{:: cus.isActive == true ? 'Active' : 'Inactive' }}</td>
+          <td md-cell>
+            <md-menu>
+              <md-button class="md-icon-button" aria-label="Open menu" ng-click="openMenu($mdOpenMenu, $event)">
+                <ng-md-icon md-menu-origin icon="more_vert" layout="row" layout-align="start center">
+                </ng-md-icon>
+              </md-button>
+              <md-menu-content width="3">
+
+                <md-menu-item>
+                  <md-button aria-label="Edit user" ng-click="onViewCustomer($event, cus)">
+                    View
+                  </md-button>
+                </md-menu-item>
+
+                <md-menu-item>
+                  <md-button aria-label="Edit user" ng-click="onNewEditCustomer($event, cus)">
+                    Edit
+                  </md-button>
+                </md-menu-item>
+
+                <md-divider></md-divider>
+
+                <md-menu-item>
+                  <md-button aria-label="Inactive" ng-click="onChangeStatusRestaurant(cus, false)">
+                    Inactive
+                  </md-button>
+                </md-menu-item>
+
+                <md-menu-item>
+                  <md-button aria-label="Activate" ng-click="onChangeStatusRestaurant(cus, true)">
+                    Active
+                  </md-button>
+                </md-menu-item>
+
+              </md-menu-content>
+            </md-menu>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </md-table-container>
+  <md-table-pagination md-limit-options="rowOptions" md-limit="query.limit" md-page="query.page" md-total="{{query.total}}"
+    md-on-paginate="onPaginationChange">
+  </md-table-pagination>
+  <md-button class="md-primary md-fab md-fab-bottom-right" aria-label="New user" ng-click="onNewEditCustomer($event,{})">
+    <ng-md-icon class="icon-add" icon="add" layout="column" layout-align="center center">
+    </ng-md-icon>
+  </md-button>
+</md-content>

@@ -1,0 +1,135 @@
+<md-dialog flex="100" flex-gt-xs="30" aria-label="Package dialog">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <span ng-if="typeAction == 'new'">New Item</span>
+            <span ng-if="typeAction == 'view'">View Item</span>
+            <span ng-if="typeAction == 'edit'">Edit Item</span>
+            <span flex></span>
+            <ng-md-icon icon="close" class="icon-close" ng-click="onCancel()" aria-label="Close dialog"></ng-md-icon>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <div class="md-dialog-content">
+            <md-card-content>
+
+                <form name="form">
+                    <!--
+                    <div layout="row" layout-align="start">
+                        <md-input-container md-no-float class="md-block" flex="70">
+                            <label>Upload Photo</label>
+                            <input type="text" ng-model="imageFilename" disabled>
+                        </md-input-container>
+
+                        <div layout="column" layout-align="start center" flex="30" ng-show="ActiveAction">
+                            <ng-md-icon icon="photo_camera" class="photo-camera" ng-class="{ 'icon-active': item.photo.url() }">
+                            </ng-md-icon>
+                            <md-button type="button" class="md-raised md-mini" ngf-select="uploadImage($file)" ngf-pattern="'image/*'">
+                                Add Photo
+                            </md-button>
+                            <md-progress-circular class="md-primary" md-diameter="30" ng-if="isUploadingItem">
+                            </md-progress-circular>
+                        </div>
+                    </div>
+                    -->
+                    
+                    <div layout="row">
+                        <md-input-container flex>
+                            <label>Name</label>
+                            <input required name="name" ng-model="item.name">
+                            <div ng-messages="form.name.$error">
+                                <div ng-message="required">Field required</div>
+                            </div>
+                        </md-input-container>
+                    </div>
+
+                    <div layout="row">
+                        <md-input-container flex>
+                            <label>Description</label>
+                            <input required name="name" ng-model="item.description">
+                            <div ng-messages="form.name.$error">
+                                <div ng-message="required">Field required</div>
+                            </div>
+                        </md-input-container>
+                    </div>
+
+                    <div layout="row">
+                        <md-input-container flex="50">
+                            <label>Price</label>
+                            <input required name="price" type="number" ng-model="item.price">
+                            <div ng-messages="form.price.$error">
+                                <div ng-message="required">Field required</div>
+                            </div>
+                        </md-input-container>
+
+                        <md-input-container flex="50">
+                            <label>Discounted Price</label>
+                            <input name="discountedPrice" type="number" ng-model="item.discountedPrice" value="0" min="0">
+                        </md-input-container>
+                    </div>
+
+                    <!--<div layout="row">
+                        <md-input-container flex>
+                            <label>Restaurant</label>
+                            <md-autocomplete required
+                             md-input-name="autocompleteRestaurant" md-selected-item="selectedRestaurant" md-search-text="searchTextRestaurant"
+                                md-search-text-change="getMatchesRestaurant(searchTextRestaurant)" md-items="itemRest in listRestaurant" md-min-length="3"
+                                md-item-text="itemRest.name">
+                                <md-item-template>
+                                    <div layout="row">
+                                        <div flex="20">
+                                            <img class="img-thumb img-circle" width="40" height="40" ng-src="/images/placeholder.png" actual-src="{{:: itemRest.photo.url() }}"
+                                            />
+                                        </div>
+                                        <div flex="20"> <span md-highlight-text="searchText">{{itemRest.name}}</span></div>
+                                    </div>
+                                </md-item-template>
+                                <md-not-found>
+                                    No matches found.
+                                </md-not-found>
+                                <div ng-messages="form.autocompleteRestaurant.$error">
+                                    <div ng-message="required">This field is required</div>
+                                </div>
+                            </md-autocomplete>
+                        </md-input-container>
+                    </div>-->
+
+                    <div layout="row">
+                        <md-input-container flex>
+                            <label>Item Category</label>
+                            <md-select name="itemCategory" ng-model="item.itemCategory" required
+                              ng-model-options="{ trackBy: '$value.id' }">
+                                <md-option ng-value="itemCategory"
+                                  ng-repeat="itemCategory in listItemCategory">
+                                  {{ itemCategory.name }}
+                                </md-option>
+                            </md-select>
+                            <div ng-messages="form.itemCategory.$error">
+                                <div ng-message="required">Field required</div>
+                            </div>
+                        </md-input-container>
+                    </div>
+
+                    <div layout="row">
+                        <md-input-container flex>
+                            <label>External ID</label>
+                            <input required name="itemId" ng-model="item.itemId">
+                            <div ng-messages="form.itemId.$error">
+                                <div ng-message="required">Field required</div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                </form>
+
+            </md-card-content>
+        </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row" ng-show="ActiveAction">
+        <span flex></span>
+        <md-button class="md-raised md-primary" md-primary md-raised ng-click="onCancel()">
+            Cancel
+        </md-button>
+        <md-button class="md-raised" md-primary md-raised ng-disabled="isSavingDisabled" ng-click="onSubmit(form.$valid)">
+            {{ !isSavingDisabled ? 'Save' : 'Saving...' }}
+        </md-button>
+    </md-dialog-actions>
+</md-dialog>

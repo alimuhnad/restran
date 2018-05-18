@@ -1,0 +1,73 @@
+<md-dialog flex="100" flex-gt-xs="30" aria-label="User dialog">
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      View User
+      <span flex></span>
+      <ng-md-icon icon="close" class="icon-close" ng-click="onCancel()"
+       aria-label="Close dialog"></ng-md-icon>
+    </div>
+  </md-toolbar>
+  <md-dialog-content>
+    <div class="md-dialog-content">
+      <md-card-content>
+        <md-list class="md-dense">
+
+          <md-list-item class="md-2-line" layout-padding>
+            <img class="img-circle" width="80" height="80" style="margin-right:16px"
+              actual-src="{{ user.photo.url() }}" ng-src="/images/placeholder.png" />
+            <div class="md-list-item-text">
+              <h4>{{ user.name }}</h4>
+              <p>Name</p>
+              <br>
+            </div>
+          </md-list-item>
+
+          <md-divider></md-divider>
+
+          <md-list-item class="md-2-line" layout-padding>
+            <ng-md-icon class="icon-item icon-active" icon="email" size="32">
+            </ng-md-icon>
+            <div class="md-list-item-text">
+              <h4>{{ user.email }}</h4>
+              <p>Email Address</p>
+            </div>
+          </md-list-item>
+
+          <md-divider></md-divider>
+
+          <md-list-item class="md-2-line" layout-padding>
+            <ng-md-icon class="icon-item icon-active" icon="mode_edit" size="32">
+            </ng-md-icon>
+            <div class="md-list-item-text">
+              <h4>{{ user.username }}</h4>
+              <p>Username</p>
+              <br>
+            </div>
+          </md-list-item>
+
+          <md-divider></md-divider>
+
+          <md-list-item class="md-2-line" layout-padding>
+            <ng-md-icon class="icon-item icon-active" icon="mode_edit" size="32">
+            </ng-md-icon>
+            <div class="md-list-item-text">
+              <h4>{{ user.phone }}</h4>
+              <p>Phone</p>
+              <br>
+            </div>
+          </md-list-item>
+
+        </md-list>
+      </md-card-content>
+    </div>
+  </md-dialog-content>
+  <md-dialog-actions layout="row">
+    <span flex></span>
+    <md-button class="md-raised" md-primary md-raised ng-click="onEdit()">
+      Edit
+    </md-button>
+    <md-button class="md-raised md-primary" md-primary md-raised ng-click="onCancel()">
+      Back
+    </md-button>
+  </md-dialog-actions>
+</md-dialog>

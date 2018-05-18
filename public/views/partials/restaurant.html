@@ -1,0 +1,205 @@
+<md-dialog flex="100" flex-gt-xs="40" aria-label="Restaurant dialog">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <span ng-if="restaurant.isNew()">New Restaurant</span>
+            <span ng-if="!restaurant.isNew()">Edit Restaurant</span>
+            <span flex></span>
+            <ng-md-icon icon="close" class="icon-close" ng-click="onCancel()" aria-label="Close dialog"></ng-md-icon>
+        </div>
+    </md-toolbar>
+    <md-dialog-content class="no-padding">
+        <md-tabs md-dynamic-height md-border-bottom>
+            <md-tab label="Restaurant">
+
+                <form name="form" layout="column" layout-padding>
+                    <div layout="row" layout-align="start">
+                        <md-input-container md-no-float class="md-block" flex="70">
+                            <label>Upload Photo</label>
+                            <input type="text" ng-model="imageFilename" disabled>
+                        </md-input-container>
+
+                        <div layout="column" layout-align="start center" flex="30">
+                            <ng-md-icon icon="photo_camera" class="photo-camera" ng-class="{ 'icon-active': restaurant.photo.url() }">
+                            </ng-md-icon>
+                            <md-button type="button" class="md-raised md-mini" ngf-select="uploadImage($file)" ngf-pattern="'image/*'">
+                                Add Picture
+                            </md-button>
+                            <md-progress-circular class="md-primary" md-diameter="30" ng-if="isUploading">
+                            </md-progress-circular>
+                        </div>
+                    </div>
+                    
+                    <md-input-container flex="50">
+                        <label>Name</label>
+                        <input required name="name" ng-model="restaurant.name">
+                        <div ng-messages="form.name.$error">
+                            <div ng-message="required">Field required</div>
+                        </div>
+                    </md-input-container>
+
+                        <!--
+
+                        <md-input-container flex="50">
+                            <label>Folio</label>
+                            <input required maxlength="10" name="folio" ng-model="restaurant.folio">
+                            <div ng-messages="form.folio.$error">
+                                <div ng-message="required">Field required</div>
+                                <div ng-message="maxlength">Four letter maxim</div>
+                            </div>
+                        </md-input-container>
+                        -->
+            
+
+                    <md-input-container flex="50">
+                        <label>Address</label>
+                        <input required name="address" ng-model="restaurant.address">
+                        <div ng-messages="form.address.$error">
+                            <div ng-message="required">Field required</div>
+                        </div>
+                    </md-input-container>
+
+                    <div layout="row" layout-align="start"
+                        ng-repeat="phone in phones track by $index">
+
+                        <md-input-container flex="70">
+                          <label>Phone</label>
+                          <input type="text" ng-model="phones[$index]" />
+                        </md-input-container>
+
+                        <div layout="column" layout-align="start center" flex="30">
+                          <p class="link" ng-if="!$first" ng-click="onDeletePhone(phone)">
+                            Remove
+                          </p>
+                        </div>
+                    </div>
+
+                    <p class="link" ng-click="onAddPhone()">
+                      Add more phones
+                    </p>
+
+                    <div layout="row">
+                        <md-input-container flex="50">
+                            <label># Printer</label>
+                            <input required name="printerId" type="text" ng-model="restaurant.printerId">
+                            <div ng-messages="form.printerId.$error">
+                                <div ng-message="required">Field required</div>
+                            </div>
+                        </md-input-container>
+
+                        <md-input-container flex="50">
+                            <label>Delivery Zones</label>
+                            <md-select name="type" multiple required ng-model-options="{ trackBy: '$value.id' }" ng-model="restaurant.deliveryZone">
+                                <md-option ng-value="deliveryZone" ng-repeat="deliveryZone in deliveryZones">
+                                    {{ deliveryZone.name }}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+                    </div>
+
+                    <div layout="row">
+
+                        <md-input-container flex="50">
+                            <label>Minimum order amount</label>
+                            <input name="minimumOrderAmount" type="number" ng-model="restaurant.minimumOrderAmount">
+                        </md-input-container>
+
+                        <md-input-container flex="50">
+                            <label>Order Discount (%)</label>
+                            <input name="orderDiscount" type="number" ng-model="restaurant.orderDiscount">
+                        </md-input-container>
+
+                    </div>
+
+                    <md-input-container>
+                        <label>Timezone</label>
+                        <md-select ng-model="restaurant.timeZone" required data-md-container-class="selectdemoSelectHeader">
+                            <md-select-header class="demo-select-header">
+                                <input ng-keydown="$event.stopPropagation()" ng-model="searchTerm" type="search" placeholder="Search..." class="demo-header-searchbox md-text">
+                            </md-select-header>
+                            <md-optgroup label="{{lisZp.text}}" required ng-repeat="lisZp in listZone | filter:searchTerm">
+                                <md-option ng-value="nameZone" ng-repeat="nameZone in lisZp.utc" ng-click="setHourZone(lisZp)">{{nameZone}}</md-option>
+                            </md-optgroup>
+                        </md-select>
+                    </md-input-container>
+
+                    <md-input-container >
+                        <label>Email address for notifications of new orders</label>
+                        <input required name="emailNotificationsAddress" type="email"   ng-model="restaurant.emailNotificationsAddress">
+                        <div ng-messages="form.emailNotificationsAddress.$error">
+                            <div ng-message="required">Field required</div>
+                            <div ng-message="email">Invalid email</div>
+                        </div>
+                    </md-input-container>
+
+
+                    <div layout="row">
+                        <md-input-container flex="50">
+                            <md-checkbox ng-model="restaurant.hasMenu" aria-label="Has own food menu?">
+                                Has own food menu?
+                            </md-checkbox>
+                        </md-input-container>
+                    </div>
+
+                    <div layout="row">
+                        <div id="map" data-tap-disabled="true" style="width: 100%;height: 250px;"></div>
+                    </div>
+
+                    <div layout="row" layout-align="start center">
+                        <md-input-container>
+                            <label>Latitude</label>
+                            <input type="number" name="latitude" ng-change="onInputLocationChanged()" ng-model-options="{debounce:1000}" ng-model="input.latitude">
+                        </md-input-container>
+
+                        <md-input-container>
+                            <label>Longitude</label>
+                            <input type="number" name="longitude" ng-change="onInputLocationChanged()" ng-model-options="{debounce:1000}" ng-model="input.longitude">
+                        </md-input-container>
+                    </div>
+
+                </form>
+            </md-tab>
+            <md-tab label="Working hours">
+                <md-content layout-padding layout="column">
+                    <div layout layout-align="space-around center" ng-repeat="openingHour in restaurant.openingHours track by $index">
+                        <span flex>{{ getDayText(openingHour.day) }}</span>
+                        <md-input-container flex>
+                            <label>Opens</label>
+                            <md-select name="open" ng-model="openingHour.open">
+                                <md-option ng-value="hour.id" ng-repeat="hour in hours">
+                                    {{ hour.text }}
+                                </md-option>
+                            </md-select>
+                            <div ng-messages="form.open.$error" ng-show="form.open.$dirty">
+                                <div ng-message="required">Select an option</div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex>
+                            <label>Closes</label>
+                            <md-select name="close" ng-model="openingHour.close">
+                                <md-option ng-value="hour.id" ng-repeat="hour in hours">
+                                    {{ hour.text }}
+                                </md-option>
+                            </md-select>
+                            <div ng-messages="form.close.$error" ng-show="form.close.$dirty">
+                                <div ng-message="required">Select an option</div>
+                            </div>
+                        </md-input-container flex>
+                        <md-checkbox ng-model="openingHour.isClosed" aria-label="Checkbox">
+                            Closed
+                        </md-checkbox>
+                    </div>
+                </md-content>
+            </md-tab>
+            <md-tab></md-tab>
+        </md-tabs>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+        <span flex></span>
+        <md-button class="md-raised md-primary" md-primary md-raised ng-click="onCancel()">
+            Cancel
+        </md-button>
+        <md-button class="md-raised" md-primary md-raised ng-disabled="isSavingDisabled" ng-click="onSubmit(form.$valid,form)">
+            {{ !isSavingDisabled ? 'Save' : 'Saving...' }}
+        </md-button>
+    </md-dialog-actions>
+</md-dialog>

@@ -1,0 +1,92 @@
+<md-dialog flex="100" flex-gt-xs="40" aria-label="User dialog">
+
+  <form name="form" role="form" novalidate>
+
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>{{ objUser.id ? 'Edit' : 'New' }} User</h2>
+        <span flex></span>
+        <ng-md-icon aria-label="Close dialog" icon="close" class="icon-close" ng-click="cancel()">
+        </ng-md-icon>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <md-content layout="column" layout-padding>
+
+        <div layout="row" layout-align="start">
+          <md-input-container md-no-float class="md-block" flex="70">
+            <label>Upload Profile Picture</label>
+            <input type="text" ng-model="imageFilename" disabled>
+          </md-input-container>
+
+          <div layout="column" layout-align="start center" flex="30">
+            <ng-md-icon icon="photo_camera" class="photo-camera" ng-class="{ 'icon-active': objUser.photo.url() }">
+            </ng-md-icon>
+            <md-button type="button" class="md-raised md-mini" ngf-select="uploadImage($file)" ngf-pattern="'image/*'">
+              Add Picture
+            </md-button>
+            <md-progress-circular class="md-primary" md-diameter="30" ng-if="isUploading">
+            </md-progress-circular>
+          </div>
+        </div>
+
+        <div layout-gt-xs="row">
+          
+          <md-input-container class="md-block" flex-gt-xs>
+            <label>Name</label>
+            <input type="text" name="name" ng-model="objUser.name" required>
+            <div ng-messages="form.name.$error" ng-show="form.$submitted">
+              <div ng-message="required">Field required</div>
+            </div>
+          </md-input-container>
+
+          <md-input-container class="md-block" flex-gt-xs>
+            <label>E-mail Address</label>
+            <input type="email" name="email" ng-model="objUser.email" required>
+            <div ng-messages="form.email.$error" ng-show="form.$submitted">
+              <div ng-message="required">Field required</div>
+              <div ng-message="email">Invalid E-mail</div>
+            </div>
+          </md-input-container>
+
+        </div>
+
+        <div layout-gt-xs="row">
+
+          <md-input-container class="md-block" flex-gt-xs>
+            <label>Username</label>
+            <input type="text" name="username" ng-model="objUser.username" required>
+            <div ng-messages="form.username.$error" ng-show="form.$submitted">
+              <div ng-message="required">Field required</div>
+            </div>
+          </md-input-container>
+
+          <md-input-container class="md-block" flex-gt-xs>
+            <label>Password</label>
+            <input type="password" name="password" ng-model="objUser.password" required>
+            <div ng-messages="form.email.$error" ng-show="form.$submitted">
+              <div ng-message="required">Field required</div>
+            </div>
+          </md-input-container>
+        </div>
+
+        <md-input-container class="md-block" flex-gt-xs>
+          <label>Phone</label>
+          <input type="text" name="phone" ng-model="objUser.phone">
+        </md-input-container>
+
+      </md-content>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <span flex></span>
+      <md-button class="md-raised" md-primary md-raised ng-click="cancel()">
+        Cancel
+      </md-button>
+      <md-button type="submit" class="md-raised md-primary" ng-disabled="isSavingUser" ng-click="onSaveUser(form.$valid)">
+        {{ !isSavingUser ? 'Save' : 'Saving...' }}
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>
