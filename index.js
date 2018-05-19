@@ -67,7 +67,7 @@ if (accessKeyId && secretAccessKey && bucketName) {
 }
 
 var api = new ParseServer({
-  databaseURI: databaseUri || 'mongodb://localhost:27017/test',
+  databaseURI: databaseUri || 'mongodb://a:a@ds123500.mlab.com:23500/restrunt',
   cloud: process.env.CLOUD_CODE_MAIN || __dirname + '/cloud/main.js',
   appId: appId,
   appName: appName,
